@@ -1,0 +1,23 @@
+name: jakmall-vue
+services:
+  apache:
+    type: apache
+    webroot: dist
+  node:
+    type: node:20
+    ports:
+      - 5173:5173
+    scanner:
+      okCodes:
+        - 502
+    build:
+      - npm install
+      - npm run build
+tooling:
+  npm:
+    service: node
+proxy:
+  apache:
+    - jakmall-vue.lndo.site
+  node:
+    - dev.jakmall-vue.lndo.site:5173
