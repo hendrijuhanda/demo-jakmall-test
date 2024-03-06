@@ -1,7 +1,7 @@
-import './assets/main.css'
+import './assets/stylus/main.styl'
 
-import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { createApp } from 'vue'
 
 import App from './App.vue'
 import router from './router'
