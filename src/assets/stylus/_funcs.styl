@@ -4,3 +4,17 @@ font-face(name, src, format, font-weight, font-style)
         src: url(src) format(format)
         font-weight: font-weight
         font-style: font-style
+
+font-Inter-UI()
+    font-family: 'Inter-UI', sans-serif
+
+font-Montserrat()
+    font-family: 'Montserrat', sans-serif
+
+button-theme(name, theme-color, text-color)
+    .btn--{name}
+        background-color: theme-color
+        color: text-color
+
+        &:hover
+            background-color: darken(theme-color, 10%)
