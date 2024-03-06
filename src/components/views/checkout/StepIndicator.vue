@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import UiIcon from '@/components/ui/icons/UiIcon.vue'
+import UiIcon from '../../ui/icons/UiIcon.vue'
 
 interface Indicator {
   step?: string
