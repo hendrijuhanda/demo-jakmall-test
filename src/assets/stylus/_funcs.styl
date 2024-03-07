@@ -1,3 +1,5 @@
+@require './_variables.styl'
+
 font-face(name, src, format, font-weight, font-style)
     @font-face
         font-family: name
@@ -18,3 +20,62 @@ button-theme(name, theme-color, text-color)
 
         &:hover
             background-color: darken(theme-color, 10%)
+
+input-general-style(wrapper-name, element, icon-dimension)
+    .{wrapper-name}
+        position: relative
+
+        {element}
+            border: 1px solid input-border-color
+            outline: none !important
+            height: 60px
+            padding: 1.875rem 0.875rem 0.625rem
+            box-sizing: border-box
+            width: 100%
+            color: black
+            font-weight: 700
+            font-size: 1rem
+            transition: border-color 0.2s ease-out
+
+        &__placeholder
+            position: absolute
+            top: 0
+            left: 0.875rem
+            height: 60px
+            color: rgba(black, 40%)
+            transition: top 0.1s ease-out, font-size 0.1s ease-out
+            pointer-events: none
+            display: flex
+            align-items: center
+
+            &--raised
+                top: -0.5rem
+                font-size: 0.75rem
+
+        &__icon
+            position: absolute
+            top: 'calc(50% - (%s / 2))' % icon-dimension
+            right: 0.875rem
+            pointer-events: none
+
+            .icon
+                width: icon-dimension
+                height: icon-dimension
+
+        &--valid, &--invalid
+            {element}
+                padding-right: 'calc(%s + (0.875rem * 2))' % icon-dimension
+
+        &--valid
+            {element}
+                border-color: input-success-color
+
+            .{wrapper-name}__placeholder, .{wrapper-name}__icon
+                color: input-success-color
+
+        &--invalid
+            {element}
+                border-color: input-error-color
+
+            .{wrapper-name}__placeholder, .{wrapper-name}__icon
+                color: input-error-color
