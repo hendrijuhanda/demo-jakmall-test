@@ -2,6 +2,8 @@
 import UiCard from '@/components/ui/cards/UiCard.vue'
 import StepIndicator from '@/components/views/checkout/StepIndicator.vue'
 import DeliveryStep from '@/components/views/checkout/DeliveryStep.vue'
+import PaymentStep from '@/components/views/checkout/PaymentStep.vue'
+import FinishStep from '@/components/views/checkout/FinishStep.vue'
 import CheckoutSummary from '@/components/views/checkout/CheckoutSummary.vue'
 import BackLink from '@/components/views/checkout/BackLink.vue'
 
@@ -22,7 +24,9 @@ const stepIndicators = [
       </header>
 
       <main class="checkout-page__main">
-        <DeliveryStep class="checkout-page__step" />
+        <DeliveryStep v-if="false" class="checkout-page__step" />
+        <PaymentStep v-if="false" class="checkout-page__step" />
+        <FinishStep class="checkout-page__step" />
         <CheckoutSummary class="checkout-page__summary" />
       </main>
     </UiCard>
@@ -61,8 +65,9 @@ const stepIndicators = [
     align-items: stretch
 
   &__step
-    margin: 0.625rem 0 0 1.25rem
+    margin-left: 1.25rem
     flex-grow: 1
+    border-right: 1px solid rgba(primary-color, 20%)
 
   &__summary
     flex-shrink: 0

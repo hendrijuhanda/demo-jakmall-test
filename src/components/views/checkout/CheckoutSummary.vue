@@ -59,7 +59,6 @@ import UiButton from '../../ui/buttons/UiButton.vue'
   width: 280px
   display: flex
   flex-direction: column
-  border-left: 1px solid rgba(primary-color, 20%)
   padding-left: 1.25rem
   box-sizing: border-box
 

@@ -27,6 +27,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
     font-size: 1.125rem
     cursor: pointer
     transition: background-color 0.2s ease-out
+    box-sizing: border-box
 
     &--block
         display: block
