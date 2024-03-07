@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import UiIcon from '../../ui/icons/UiIcon.vue'
+import UiIcon from '@/components/ui/icons/UiIcon.vue';
 
-interface Indicator {
+export interface Indicator {
   step?: string
   label?: string
   active?: boolean
@@ -32,13 +32,17 @@ const props = defineProps<{ indicators: Indicator[] }>()
 <style lang="stylus" scoped>
 @require '../../../assets/stylus/_variables.styl'
 
+width = 500px
+height = 70px
+index-dimension = 1.875rem
+icon-dimension = 1.5rem
+
 .step-indicator
-  width = 500px
-  height = 70px
   display: flex
   justify-content: center
   pointer-events: none
   top: 'calc(-%s / 2)' % height
+  left: 0
 
   &__inner
     min-width: width
@@ -57,20 +61,18 @@ const props = defineProps<{ indicators: Indicator[] }>()
     align-items: center
 
     .index
-      dimension = 1.875rem
-      width: dimension
-      height: dimension
+      width: index-dimension
+      height: index-dimension
       background-color: rgba(primary-color, 20%)
-      border-radius: 'calc(%s / 2)' % dimension
+      border-radius: 'calc(%s / 2)' % index-dimension
       display: flex
       align-items: center
       justify-content: center
       margin-right: 0.625rem
 
     .icon
-      dimension = 1.5rem
-      width: dimension
-      height: dimension
+      width: icon-dimension
+      height: icon-dimension
       display: flex
       align-items: center
       justify-content: center

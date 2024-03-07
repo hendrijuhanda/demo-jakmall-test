@@ -23,7 +23,8 @@ button-theme(name, theme-color, text-color)
 
 input-general-style(wrapper-name, element, icon-dimension)
     .{wrapper-name}
-        position: relative
+        &__inner
+            position: relative
 
         {element}
             border: 1px solid input-border-color
@@ -37,12 +38,15 @@ input-general-style(wrapper-name, element, icon-dimension)
             font-size: 1rem
             transition: border-color 0.2s ease-out
 
+            &[disabled]
+                background-color: input-disabled-color
+
         &__placeholder
             position: absolute
             top: 0
             left: 0.875rem
             height: 60px
-            color: rgba(black, 40%)
+            color: text-color-3
             transition: top 0.1s ease-out, font-size 0.1s ease-out
             pointer-events: none
             display: flex
@@ -61,6 +65,11 @@ input-general-style(wrapper-name, element, icon-dimension)
             .icon
                 width: icon-dimension
                 height: icon-dimension
+
+        &__error
+            color: input-error-color
+            font-size: 0.875rem
+            margin-top: 0.25rem
 
         &--valid, &--invalid
             {element}

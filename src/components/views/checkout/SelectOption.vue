@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import UiTextDecorated from '../../ui/typos/UiTextDecorated.vue'
-import UiIcon from '../../ui/icons/UiIcon.vue'
+import UiIcon from '../../ui/icons/UiIcon.vue';
+import UiTextDecorated from '../../ui/typos/UiTextDecorated.vue';
 
 interface SelectOptionItem {
   key?: string
@@ -15,6 +15,7 @@ interface SelectOptionProps {
 }
 
 const props = defineProps<SelectOptionProps>()
+const emit = defineEmits(['select'])
 </script>
 
 <template>
@@ -27,6 +28,7 @@ const props = defineProps<SelectOptionProps>()
         :key="index"
         class="select-option__item"
         :class="{ 'select-option__item--active': item.active }"
+        @click="emit('select', item)"
       >
         <div class="inner">
           <div class="label">{{ item.label }}</div>
@@ -42,43 +44,45 @@ const props = defineProps<SelectOptionProps>()
 </template>
 
 <style lang="stylus" scoped>
+@require '../../../assets/stylus/_variables.styl'
+
 .select-option
-    width: 560px
+  width: 560px
 
-    &__title
-        width: 300px
-        margin-bottom: 1.875rem
+  &__title
+    width: 300px
+    margin-bottom: 1.875rem
 
-    &__items
-        display: grid
-        grid-template-columns: repeat(3, 1fr)
-        gap: 0.625rem
+  &__items
+    display: grid
+    grid-template-columns: repeat(3, 1fr)
+    gap: 0.625rem
 
-    &__item
-        box-sizing: border-box
-        padding: 0.75rem 0.875rem
-        border: 1px solid #cccccc
-        cursor: pointer
-        display: flex
-        align-items: center
-        justify-content: space-between
+  &__item
+    box-sizing: border-box
+    padding: 0.75rem 0.875rem
+    border: 1px solid input-border-color
+    cursor: pointer
+    display: flex
+    align-items: center
+    justify-content: space-between
 
-        .inner
-            display: flex
-            flex-direction: column
-            justify-content: center
+    .inner
+      display: flex
+      flex-direction: column
+      justify-content: center
 
-        .label
-            font-size: 0.875rem
-            margin-bottom: 0.125rem
+    .label
+      font-size: 0.875rem
+      margin-bottom: 0.125rem
 
-        .content
-            font-weight: 700
+    .content
+      font-weight: 700
 
-        .icon
-            color: #1BD97B
+    .icon
+      color: success-color
 
-        &--active
-            background-color: rgba(#1BD97B, 10%)
-            border-color: #1BD97B
+    &--active
+      background-color: rgba(success-color, 10%)
+      border-color: success-color
 </style>

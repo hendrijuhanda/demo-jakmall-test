@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
 import UiIcon from '../icons/UiIcon.vue';
 
 interface CheckboxProps {
@@ -7,8 +6,7 @@ interface CheckboxProps {
 }
 
 const props = defineProps<CheckboxProps>()
-
-const checked = ref<boolean>(false)
+const checked = defineModel('checked')
 </script>
 
 <template>
@@ -24,6 +22,8 @@ const checked = ref<boolean>(false)
 </template>
 
 <style lang="stylus" scoped>
+@require '../../../assets/stylus/_variables.styl'
+
 .checkbox
     & > label
         display: flex
@@ -45,16 +45,16 @@ const checked = ref<boolean>(false)
         width: 1.125rem
         height: 1.125rem
         box-sizing: border-box
-        border: 1px solid #cccccc
+        border: 1px solid input-border-color
         margin-right: 0.625rem
 
         .icon
-            width: 1.125rem
-            height: 1.125rem
+            width: 1rem
+            height: 1rem
 
         &--active
-            border-color: #1BD97B
-            color: #1BD97B
+            border-color: input-success-color
+            color: input-success-color
 
     &__label
         font-size: 0.875rem

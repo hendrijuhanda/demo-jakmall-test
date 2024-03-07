@@ -44,7 +44,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   padding: 1.25rem 1.875rem
   border: 0
   background-color: transparent
-  font-weight: 600
+  font-weight: 500
   font-size: 1.125rem
   cursor: pointer
   transition: background-color 0.2s ease-out

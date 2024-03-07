@@ -5,13 +5,78 @@ import CheckoutSummary from '@/components/views/checkout/CheckoutSummary.vue'
 import DeliveryStep from '@/components/views/checkout/DeliveryStep.vue'
 import FinishStep from '@/components/views/checkout/FinishStep.vue'
 import PaymentStep from '@/components/views/checkout/PaymentStep.vue'
-import StepIndicator from '@/components/views/checkout/StepIndicator.vue'
+import StepIndicator, { type Indicator } from '@/components/views/checkout/StepIndicator.vue'
+import { useCheckoutStore } from '@/stores/checkout'
+import priceFormat from '@/utils/price-format'
+import { storeToRefs } from 'pinia'
+import { computed, onMounted, ref, watch } from 'vue'
 
-const stepIndicators = [
-  { step: 'delivery', label: 'Delivery', active: true },
+const shipments = {
+  'go-send': { cost: 15000, estimation: 'Today', label: 'GO-SEND' },
+  jne: { cost: 9000, estimation: '2 days', label: 'JNE' },
+  'personal-courier': { cost: 29000, estimation: '1 day', label: 'Personal Courier' }
+}
+
+const payments = {
+  'e-wallet': { label: 'e-Wallet', content: `${priceFormat(1500000)} left` },
+  'bank-transfer': { label: 'Bank Transfer', content: 'Bank Transfer' },
+  va: { label: 'Virtual Account', content: 'Virtual Account' }
+}
+
+const stepIndicators = ref<Indicator[]>([
+  { step: 'delivery', label: 'Delivery' },
   { step: 'payment', label: 'Payment' },
   { step: 'finish', label: 'Finish' }
-]
+])
+
+const deliveryStepRef = ref()
+const paymentStepRef = ref()
+const checkoutStore = useCheckoutStore()
+const { setStep, reset } = checkoutStore
+const { step } = storeToRefs(checkoutStore)
+const backLink = computed(() => {
+  if (step.value === 1) {
+    return { to: '/', label: 'Back to Cart' }
+  } else if (step.value === 2) {
+    return { to: undefined, label: 'Back to delivery' }
+  }
+
+  return {}
+})
+
+const handleSummaryBtn = () => {
+  if (deliveryStepRef.value && step.value === 1) {
+    const { errors } = deliveryStepRef.value.validate()
+
+    if (!errors.length) {
+      setStep(2)
+    }
+  }
+
+  if (paymentStepRef.value && step.value === 2) {
+    const valid = paymentStepRef.value.validate()
+
+    if (valid) {
+      setStep(3)
+    }
+  }
+}
+
+onMounted(() => {
+  if (step.value === 3) {
+    reset()
+  }
+})
+
+watch(
+  step,
+  (val: number) => {
+    for (let i = 0; i < stepIndicators.value.length; i++) {
+      stepIndicators.value[i] = { ...stepIndicators.value[i], active: val - 1 >= i }
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
@@ -19,15 +84,34 @@ const stepIndicators = [
     <UiCard class="checkout-page__card">
       <StepIndicator class="checkout-page__step-indicator" :indicators="stepIndicators" />
 
-      <header class="checkout-page__header">
-        <BackLink to="/">Back to Cart</BackLink>
+      <header
+        class="checkout-page__header"
+        :class="{ 'checkout-page__header--invisible': step === 3 }"
+      >
+        <BackLink :to="backLink.to" @click="step === 2 ? setStep(1) : undefined">{{
+          backLink.label
+        }}</BackLink>
       </header>
 
       <main class="checkout-page__main">
-        <DeliveryStep class="checkout-page__step" />
-        <PaymentStep v-if="false" class="checkout-page__step" />
-        <FinishStep v-if="false" class="checkout-page__step" />
-        <CheckoutSummary class="checkout-page__summary" />
+        <DeliveryStep v-if="step === 1" ref="deliveryStepRef" class="checkout-page__step" />
+
+        <PaymentStep
+          v-if="step === 2"
+          ref="paymentStepRef"
+          class="checkout-page__step"
+          :shipment-data="shipments"
+          :payment-data="payments"
+        />
+
+        <FinishStep v-if="step === 3" class="checkout-page__step" :shipment-data="shipments" />
+
+        <CheckoutSummary
+          class="checkout-page__summary"
+          :shipment-data="shipments"
+          :payment-data="payments"
+          @button-click="handleSummaryBtn"
+        />
       </main>
     </UiCard>
   </div>
@@ -59,6 +143,9 @@ const stepIndicators = [
   &__header
     margin-bottom: 1.5rem
     padding: 0.625rem 0 0 1.25rem
+
+    &--invisible
+      visibility: hidden
 
   &__main
     display: flex

@@ -5,12 +5,15 @@ import UiIcon from '../icons/UiIcon.vue';
 interface InputProps {
   placeholder?: string
   valid?: undefined | boolean
+  disabled?: boolean
+  innerClass?: any
+  error?: string | null
 }
 
 const props = withDefaults(defineProps<InputProps>(), { valid: undefined })
 
 const isFocus = ref<boolean>(false)
-const value = defineModel<string>()
+const value = defineModel('value')
 </script>
 
 <template>
@@ -18,21 +21,32 @@ const value = defineModel<string>()
     class="input"
     :class="{ 'input--valid': props.valid === true, 'input--invalid': props.valid === false }"
   >
-    <input type="text" v-model="value" @focus="isFocus = true" @blur="isFocus = false" />
-    <div
-      v-if="props.placeholder"
-      class="input__placeholder"
-      :class="{ 'input__placeholder--raised': isFocus || value }"
-    >
-      {{ props.placeholder }}
-    </div>
+    <div class="input__inner" :class="props.innerClass">
+      <input
+        type="text"
+        v-model="value"
+        @focus="isFocus = true"
+        @blur="isFocus = false"
+        :disabled="props.disabled"
+      />
 
-    <div v-if="props.valid !== undefined">
-      <div class="input__icon">
-        <UiIcon v-if="props.valid === true" class="icon" name="md-done" />
-        <UiIcon v-if="props.valid === false" class="icon" name="md-close" />
+      <div
+        v-if="props.placeholder"
+        class="input__placeholder"
+        :class="{ 'input__placeholder--raised': isFocus || value }"
+      >
+        {{ props.placeholder }}
+      </div>
+
+      <div v-if="props.valid !== undefined">
+        <div class="input__icon">
+          <UiIcon v-if="props.valid === true" class="icon" name="md-done" />
+          <UiIcon v-if="props.valid === false" class="icon" name="md-close" />
+        </div>
       </div>
     </div>
+
+    <div v-if="props.error" class="input__error">{{ props.error }}</div>
   </div>
 </template>
 

@@ -1,5 +1,37 @@
 <script lang="ts" setup>
-import UiButton from '../../ui/buttons/UiButton.vue'
+import UiButton from '@/components/ui/buttons/UiButton.vue'
+import { useCheckoutStore } from '@/stores/checkout'
+import priceFormat from '@/utils/price-format'
+import { storeToRefs } from 'pinia'
+import { computed, ref } from 'vue'
+
+interface CheckoutSummaryProps {
+  shipmentData: any
+  paymentData: any
+}
+
+const props = defineProps<CheckoutSummaryProps>()
+const emit = defineEmits(['button-click'])
+
+const checkoutStore = useCheckoutStore()
+const { step, deliveryDetails } = storeToRefs(checkoutStore)
+
+const selectedShipment = computed(() => props.shipmentData[deliveryDetails.value.shipment])
+const selectedPayment = computed(() => props.paymentData[deliveryDetails.value.payment])
+const goodsCost = ref<number>(500000)
+const dropshippingFee = computed(() => (deliveryDetails.value.dropshipper ? 5900 : 0))
+const total = computed(
+  () => goodsCost.value + dropshippingFee.value + (selectedShipment.value?.cost || 0)
+)
+const buttonLabel = computed(() => {
+  if (step.value === 1) {
+    return 'Continue to Payment'
+  } else if (step.value === 2 && selectedPayment.value) {
+    return `Pay with ${selectedPayment.value.label}`
+  } else {
+    return 'Continue'
+  }
+})
 </script>
 
 <template>
@@ -10,14 +42,14 @@ import UiButton from '../../ui/buttons/UiButton.vue'
         <div class="summary__count">10 items purchased</div>
       </div>
 
-      <div class="summary__shipment">
+      <div v-if="step >= 2 && deliveryDetails.shipment" class="summary__shipment">
         <div>Delivery Estimation</div>
-        <div>Today by GO-SEND</div>
+        <div>{{ `${selectedShipment.estimation} by ${selectedShipment.label}` }}</div>
       </div>
 
-      <div class="summary__payment">
+      <div v-if="step >= 2 && deliveryDetails.payment" class="summary__payment">
         <div>Payment Method</div>
-        <div>Bank Transfer</div>
+        <div>{{ selectedPayment.label }}</div>
       </div>
     </div>
 
@@ -25,28 +57,36 @@ import UiButton from '../../ui/buttons/UiButton.vue'
       <div>
         <div class="summary__cost">
           <div>Cost of goods</div>
-          <div><b>500,000</b></div>
+          <div>
+            <b>{{ priceFormat(goodsCost) }}</b>
+          </div>
         </div>
 
         <div class="summary__dropship-fee">
           <div>Dropshipping Fee</div>
-          <div><b>5,900</b></div>
+          <div>
+            <b>{{ dropshippingFee ? priceFormat(dropshippingFee) : '-' }}</b>
+          </div>
         </div>
 
-        <div class="summary__shipment-cost">
-          <div><b>GO-SEND</b> shipment</div>
-          <div><b>5,900</b></div>
+        <div v-if="step >= 2 && deliveryDetails.shipment" class="summary__shipment-cost">
+          <div>
+            <b>{{ selectedShipment.label }}</b> shipment
+          </div>
+          <div>
+            <b>{{ priceFormat(selectedShipment.cost) }}</b>
+          </div>
         </div>
       </div>
 
       <div class="summary__total">
         <div>Total</div>
-        <div>505900</div>
+        <div>{{ priceFormat(total) }}</div>
       </div>
     </div>
 
-    <div>
-      <UiButton color="primary" block>Pay with e-wallet</UiButton>
+    <div v-if="step !== 3">
+      <UiButton color="primary" block @click="emit('button-click')">{{ buttonLabel }}</UiButton>
     </div>
   </section>
 </template>
@@ -94,7 +134,7 @@ import UiButton from '../../ui/buttons/UiButton.vue'
       margin-bottom: 0.25rem
 
     & > div:nth-child(2)
-      color: #1BD97B
+      color: success-color
 
   &__count
     font-weight: normal

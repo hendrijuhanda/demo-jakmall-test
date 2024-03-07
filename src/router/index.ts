@@ -1,3 +1,4 @@
+import CheckoutView from '@/views/CheckoutView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
@@ -12,7 +13,7 @@ const router = createRouter({
     {
       path: '/checkout',
       name: 'checkout',
-      component: () => import('../views/CheckoutView.vue')
+      component: CheckoutView
     }
   ]
 })
