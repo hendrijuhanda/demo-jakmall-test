@@ -201,22 +201,43 @@ watch(
 </template>
 
 <style lang="stylus" scoped>
+@require '../../../assets/stylus/_variables.styl'
+
 .delivery
   &__header
-    display: flex
-    justify-content: space-between
-    align-items: center
     margin-bottom: 2.25rem
 
+    @media xl-breakpoint
+      display: flex
+      justify-content: space-between
+      align-items: center
+
   &__checkbox
-    margin-right: 2.5rem
+    margin-top: 2.5rem
+
+    @media xl-breakpoint
+      margin-top: 0
+      margin-right: 2.5rem
 
   &__inputs
     display: grid
-    grid-template-columns: 400px 300px
+    grid-template-columns: 100%
     grid-template-rows: repeat(2, 1fr)
     grid-column-gap: 1.875rem
     grid-row-gap: 0.625rem
+
+    & > *
+      &:nth-child(2)
+        order: 4
+
+      &:nth-child(4)
+        order: 5
+
+    @media xl-breakpoint
+      grid-template-columns: 400px 300px
+
+      & > *
+        order: 0 !important
 </style>
 
 <style lang="stylus">

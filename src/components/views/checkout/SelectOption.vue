@@ -48,9 +48,11 @@ const emit = defineEmits(['select'])
 
 .select-option
   width: 560px
+  max-width: 100%
 
   &__title
     width: 300px
+    max-width: 100%
     margin-bottom: 1.875rem
 
   &__items
@@ -81,6 +83,7 @@ const emit = defineEmits(['select'])
 
     .icon
       color: success-color
+      margin-left: 0.875rem
 
     &--active
       background-color: rgba(success-color, 10%)

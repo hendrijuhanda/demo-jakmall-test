@@ -41,13 +41,16 @@ icon-dimension = 1.5rem
   display: flex
   justify-content: center
   pointer-events: none
-  top: 'calc(-%s / 2)' % height
+  top: 'calc(-%s / 2)' % (height / 2)
   left: 0
 
+  @media sm-breakpoint
+    top: 'calc(-%s / 2)' % height
+
   &__inner
-    min-width: width
-    height: height
-    padding: 0 2.5rem
+    width: auto
+    height: (height / 2)
+    padding: 0 1.25rem
     display: inline-flex
     align-items: center
     justify-content: center
@@ -55,14 +58,19 @@ icon-dimension = 1.5rem
     border-radius: 'calc(%s / 2)' % height
     box-sizing: border-box
 
+    @media sm-breakpoint
+      min-width: width
+      height: height
+      padding: 0 2.5rem
+
   &__item
     color: primary-color
     display: flex
     align-items: center
 
     .index
-      width: index-dimension
-      height: index-dimension
+      width: (index-dimension * 0.75)
+      height: (index-dimension * 0.75)
       background-color: rgba(primary-color, 20%)
       border-radius: 'calc(%s / 2)' % index-dimension
       display: flex
@@ -70,16 +78,31 @@ icon-dimension = 1.5rem
       justify-content: center
       margin-right: 0.625rem
 
+      @media sm-breakpoint
+        width: index-dimension
+        height: index-dimension
+
     .icon
       width: icon-dimension
       height: icon-dimension
       display: flex
       align-items: center
       justify-content: center
-      margin: 0 1.25rem
+      margin: 0 0.5rem
+
+      @media sm-breakpoint
+        margin: 0 1.25rem
+
+    .label
+      display: block
+      font-size: 0.825rem
+
+      @media sm-breakpoint
+        font-size: inherit
 
     &--active
       .index
         color: white
         background-color: primary-color
+        margin-right: 0.625rem
 </style>

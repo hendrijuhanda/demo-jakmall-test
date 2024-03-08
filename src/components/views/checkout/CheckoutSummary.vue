@@ -96,11 +96,13 @@ const buttonLabel = computed(() => {
 @require '../../../assets/stylus/_funcs.styl'
 
 .summary
-  width: 280px
   display: flex
   flex-direction: column
-  padding-left: 1.25rem
   box-sizing: border-box
+
+  @media xl-breakpoint
+    width: 280px
+    padding-left: 1.25rem
 
   &__top
     flex-grow: 1
@@ -163,5 +165,10 @@ const buttonLabel = computed(() => {
     margin-top: 1.5rem
 
   &__bottom
+    margin-top: 3rem
     margin-bottom: 1.875rem
+
+    @media xl-breakpoint
+      margin-top: 0
+      margin-bottom: 1.875rem
 </style>

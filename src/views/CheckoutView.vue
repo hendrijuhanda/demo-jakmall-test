@@ -122,19 +122,27 @@ watch(
 
 .checkout-page
   width: 100%
-  height: 100vh
+  min-height: 100vh
   background-color: bg-color
   display: flex
-  align-items: center
+  align-items: start
   justify-content: center
+  padding: 1rem
+  box-sizing: border-box
+
+  @media xl-breakpoint
+    align-items: center
 
   &__card
     width: 1100px
-    height: 550px
+    height: auto
+    min-height: 550px
+    max-width: 100%
     position: relative
     display: flex
     flex-direction: column
     box-sizing: border-box
+    margin: 2rem auto
 
   &__step-indicator
     position: absolute
@@ -142,21 +150,35 @@ watch(
 
   &__header
     margin-bottom: 1.5rem
-    padding: 0.625rem 0 0 1.25rem
+    padding-top: 2rem
+
+    @media xl-breakpoint
+      padding: 0.625rem 0 0 1.25rem
 
     &--invisible
       visibility: hidden
 
   &__main
-    display: flex
-    flex-grow: 1
-    align-items: stretch
+    display: block
+
+    @media xl-breakpoint
+      display: flex
+      flex-grow: 1
+      align-items: stretch
 
   &__step
-    margin-left: 1.25rem
-    padding-right: 1.25rem
-    flex-grow: 1
-    border-right: 1px solid rgba(primary-color, 20%)
+    margin-bottom: 1.25rem
+    padding-bottom: 1.25rem
+    border-bottom: 1px solid rgba(primary-color, 20%)
+
+    @media xl-breakpoint
+      margin-bottom: 0
+      padding-bottom: 0
+      border-bottom: none
+      margin-left: 1.25rem
+      padding-right: 1.25rem
+      flex-grow: 1
+      border-right: 1px solid rgba(primary-color, 20%)
 
   &__summary
     flex-shrink: 0

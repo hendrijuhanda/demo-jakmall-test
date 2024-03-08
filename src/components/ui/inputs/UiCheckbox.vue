@@ -30,6 +30,7 @@ const checked = defineModel('checked')
         align-items: center
         position: relative
         cursor: pointer
+        user-select: none
 
         & > input[type='checkbox']
             position: absolute

@@ -45,13 +45,17 @@ onUnmounted(() => {
 </template>
 
 <style lang="stylus" scoped>
+@require '../../../assets/stylus/_variables.styl'
+
 .finish
-  display: flex
-  align-items: center
-  justify-content: center
+  @media xl-breakpoint
+    display: flex
+    align-items: center
+    justify-content: center
 
   &__salute
     width: 300px
+    max-width: 100%
     margin-bottom: 1.625rem
 
   &__order-id, &__desc
