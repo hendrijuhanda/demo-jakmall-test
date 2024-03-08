@@ -23,6 +23,8 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
 
+This project was built with node 20, `.nvmrc` included.
+
 ```sh
 npm install
 ```
@@ -39,37 +41,24 @@ npm run dev
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+## Usage with Lando (Recommended)
 
-```sh
-npm run test:unit
+[Lando](https://lando.dev/) is local development environment DevOps tool, built on Docker. The repository includes `.lando.yml` config file and is already pre-scripted.
+
+Assumed Lando is installed, simply run command below.
+
+```
+lando start
 ```
 
-### Run End-to-End Tests with [Nightwatch](https://nightwatchjs.org/)
+Wait for the build process, and if everything goes well, the app should be virtually hosted on `http://jakmall-vue.lndo.site`. That's it.
+
+### Development within Container
+
+Run development server within container.
 
 ```sh
-# When using CI, the project must be built first.
-npm run build
-
-# Runs the end-to-end tests
-npm run test:e2e
-# Runs the tests only on Chrome
-npm run test:e2e -- --env chrome
-# Runs the tests of a specific file
-npm run test:e2e -- tests/e2e/example.ts
-# Runs the tests in debug mode
-npm run test:e2e -- --debug
-```
-    
-### Run Headed Component Tests with [Nightwatch Component Testing](https://nightwatchjs.org/guide/component-testing/introduction.html)
-  
-```sh
-npm run test:unit
-npm run test:unit -- --headless # for headless testing
+lando npm run dev
 ```
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+The server should be running on `http://localhost:5173` or `http://dev.jakmall-vue.lndo.site`.
